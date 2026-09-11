@@ -20,7 +20,7 @@ public class ReturnsPanel extends JPanel {
         appLabel.setFont(new Font("Trebuchet MS", Font.BOLD, 24));
         appLabel.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
 
-        returnsList = AUX_CLS.readLinesFromTxt("PROJECT/returns.txt");
+        returnsList = AUX_CLS.readLinesFromTxt("src/main/returns.txt");
 
         JPanel buttonListPanel = new JPanel();
         buttonListPanel.setLayout(new BoxLayout(buttonListPanel, BoxLayout.Y_AXIS));

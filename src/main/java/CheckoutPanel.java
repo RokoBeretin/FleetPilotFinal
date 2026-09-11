@@ -18,7 +18,7 @@ public class CheckoutPanel extends JPanel {
         appLabel.setHorizontalAlignment(SwingConstants.CENTER);
         appLabel.setFont(new Font("Trebuchet MS", Font.BOLD, 24));
         appLabel.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
-        checkOutList = AUX_CLS.readLinesFromTxt("PROJECT/checkout.txt");
+        checkOutList = AUX_CLS.readLinesFromTxt("src/main/checkout.txt");
 
         JPanel buttonListPanel = new JPanel();
         buttonListPanel.setLayout(new BoxLayout(buttonListPanel, BoxLayout.Y_AXIS));

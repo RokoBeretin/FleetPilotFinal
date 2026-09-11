@@ -32,7 +32,7 @@ public class CarDAO {
             }
 
         } catch (SQLException e) {
-            System.err.println("Greška pri dohvatu auta iz baze: " + e.getMessage());
+            System.err.println("Error retrieving car from database: " + e.getMessage());
         }
 
         return cars;
@@ -58,7 +58,7 @@ public class CarDAO {
             }
 
         } catch (SQLException e) {
-            System.err.println("Greška pri traženju auta: " + e.getMessage());
+            System.err.println("Error searching for car: " + e.getMessage());
         }
 
         return Optional.empty();
@@ -78,7 +78,7 @@ public class CarDAO {
             return rowsInserted > 0;
 
         } catch (SQLException e) {
-            System.err.println("Greška pri spremanju auta: " + e.getMessage());
+            System.err.println("Error saving car: " + e.getMessage());
             return false;
         }
     }
@@ -96,7 +96,7 @@ public class CarDAO {
             return rowsUpdated > 0;
 
         } catch (SQLException e) {
-            System.err.println("Greška pri promjeni dostupnosti auta: " + e.getMessage());
+            System.err.println("Error changing car availability: " + e.getMessage());
             return false;
         }
     }
@@ -113,7 +113,7 @@ public class CarDAO {
             return rowsDeleted > 0;
 
         } catch (SQLException e) {
-            System.err.println("Greška pri brisanju auta: " + e.getMessage());
+            System.err.println("Error deleting car: " + e.getMessage());
             return false;
         }
     }

@@ -7,16 +7,18 @@ import java.util.List;
 public class NewActivityPanel extends JPanel {
     private JTextField timeOfRes;
     private JComboBox<String> activityCombo;
-    private JTextField clientTextField;
+    private JComboBox<String> clientCombo;
     private JComboBox<String> vehicleCombo;
     private JButton submitButton;
     private NewActivityPanelListener newActivityListener;
     private CarDAO carDAO;
     private ReservationDAO reservationDAO;
+    private DriverDAO driverDAO;
 
     public NewActivityPanel() {
         carDAO = new CarDAO();
         reservationDAO = new ReservationDAO();
+        driverDAO = new DriverDAO();
 
         initComps();
         layoutComps();
@@ -28,7 +30,6 @@ public class NewActivityPanel extends JPanel {
     }
 
     private void initComps() {
-        // Unosna polja
         timeOfRes = new JTextField(30);
         timeOfRes.setToolTipText("YYYY-MM-DD HH:MM");
 
@@ -40,7 +41,14 @@ public class NewActivityPanel extends JPanel {
         activityCombo.setModel(activityModel);
         activityCombo.setSelectedIndex(0);
 
-        clientTextField = new JTextField(30);
+        DefaultComboBoxModel<String> clientModel = new DefaultComboBoxModel<>();
+        List<Driver> driversList = driverDAO.getAllDrivers();
+
+        for (Driver driver : driversList) {
+            clientModel.addElement(driver.getFullName() + " | " + driver.getOib());
+        }
+
+        clientCombo = new JComboBox<>(clientModel);
 
         DefaultComboBoxModel<String> vehicleModel = new DefaultComboBoxModel<>();
         List<Car> carsList = carDAO.getAllCars();
@@ -77,7 +85,8 @@ public class NewActivityPanel extends JPanel {
         add(new JLabel("Client:"), gbc);
 
         gbc.gridx += 1;
-        add(clientTextField, gbc);
+        gbc.anchor = GridBagConstraints.FIRST_LINE_START;
+        add(clientCombo, gbc);
 
         gbc.gridx = 0;
         gbc.gridy += 1;
@@ -98,14 +107,16 @@ public class NewActivityPanel extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 if (activityCombo.getSelectedItem() != null &&
                         vehicleCombo.getSelectedItem() != null &&
-                        !clientTextField.getText().trim().isEmpty()) {
+                        clientCombo.getSelectedItem() != null &&
+                        !timeOfRes.getText().trim().isEmpty()) {
 
                     String activity = (String) activityCombo.getSelectedItem();
                     String vehicle = (String) vehicleCombo.getSelectedItem();
-                    String client = clientTextField.getText().trim();
+                    String clientSelection = (String) clientCombo.getSelectedItem();
                     String time = timeOfRes.getText().trim();
 
                     String licensePlate = vehicle.split("\\|")[0].trim();
+                    String client = clientSelection.split("\\|")[0].trim();
 
                     if ("Reservation".equals(activity)) {
                         Reservation reservation = new Reservation(licensePlate, client, time);
@@ -120,7 +131,6 @@ public class NewActivityPanel extends JPanel {
                     }
 
                     vehicleCombo.removeItem(vehicle);
-                    clientTextField.setText("");
                     timeOfRes.setText("");
 
                 } else {

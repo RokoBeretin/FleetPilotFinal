@@ -82,8 +82,8 @@ public class ReservationFrame extends JFrame {
                     String title = ReservationFrame.this.getTitle();
                     String activityFinal = title + " | " + timeOfReturn.getText().trim();
 
-                    AUX_CLS.writeToTxt(activityFinal, "PROJECT/returns.txt");
-                    AUX_CLS.writeToTxt(activityFinal, "PROJECT/checkout.txt");
+                    AUX_CLS.writeToTxt(activityFinal, "src/main/returns.txt");
+                    AUX_CLS.writeToTxt(activityFinal, "src/main/checkout.txt");
 
                     String licensePlate = title.split("\\|")[0].trim();
 

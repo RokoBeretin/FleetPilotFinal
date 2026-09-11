@@ -79,10 +79,10 @@ public class ReturnsFrame extends JFrame {
                             JOptionPane.ERROR_MESSAGE
                     );
                 } else {
-                    AUX_CLS.removeLineFromTxt("PROJECT/returns.txt", ReturnsFrame.this.getTitle());
+                    AUX_CLS.removeLineFromTxt("src/main/returns.txt", ReturnsFrame.this.getTitle());
 
                     String historyEntry = ReturnsFrame.this.getTitle().trim() + " | Km: " + kmText + " | Fuel: " + fuelText;
-                    AUX_CLS.writeToTxt(historyEntry, "PROJECT/rentalsHistory.txt");
+                    AUX_CLS.writeToTxt(historyEntry, "src/main/rentalsHistory.txt");
 
                     String rawTitle = ReturnsFrame.this.getTitle();
                     String licensePlate = rawTitle.split("\\|")[0].trim();

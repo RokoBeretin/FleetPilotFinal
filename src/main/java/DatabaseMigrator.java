@@ -16,7 +16,7 @@ public class DatabaseMigrator {
                 cars = (List<Car>) obj;
             }
         } catch (IOException | ClassNotFoundException e) {
-            System.err.println("Greška pri čitanju bin datoteke: " + e.getMessage());
+            System.err.println("Error reading binary file: " + e.getMessage());
         }
 
         return cars;
@@ -26,18 +26,18 @@ public class DatabaseMigrator {
         String binFilePath = "C:\\Users\\nikob\\IdeaProjects\\finalni-projekt-oop-24-25-RokoBeretin\\cars.bin";
 
         List<Car> carsFromBin = readCarsFromBinFile(binFilePath);
-        System.out.println("Pronađeno " + carsFromBin.size() + " auta u binarnoj datoteci.");
+        System.out.println("Found " + carsFromBin.size() + " cars in the binary file.");
 
         CarDAO carDAO = new CarDAO();
-        int uspjesnoSpremljeno = 0;
+        int successfullySaved = 0;
 
         for (Car car : carsFromBin) {
             boolean success = carDAO.saveCar(car);
             if (success) {
-                uspjesnoSpremljeno++;
+                successfullySaved++;
             }
         }
 
-        System.out.println("Migracija završena! Uspješno prebačeno " + uspjesnoSpremljeno + " od " + carsFromBin.size() + " auta u Aiven bazu.");
+        System.out.println("Migration finished! Successfully transferred " + successfullySaved + " out of " + carsFromBin.size() + " cars to the Aiven database.");
     }
 }

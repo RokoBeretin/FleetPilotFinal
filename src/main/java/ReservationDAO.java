@@ -11,7 +11,6 @@ public class ReservationDAO {
         return DriverManager.getConnection(URL, USER, PASSWORD);
     }
 
-    // Spremanje nove rezervacije u bazu
     public boolean saveReservation(Reservation reservation) {
         String sql = "INSERT INTO reservations (license_plate, client, time_of_res, status) VALUES (?, ?, ?, ?)";
 
@@ -32,7 +31,6 @@ public class ReservationDAO {
         }
     }
 
-    // Dohvat svih aktivnih rezervacija iz baze
     public List<Reservation> getAllActiveReservations() {
         List<Reservation> reservations = new ArrayList<>();
         String sql = "SELECT * FROM reservations WHERE status = 'ACTIVE'";
