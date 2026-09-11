@@ -1,9 +1,13 @@
 import java.io.Serializable;
+
 public class Activity implements Serializable {
     private Car car;
     private String activity;
 
-    public Activity (){
+    public Activity() {
+    }
+
+    public Activity(Car car, String activity) {
         this.car = car;
         this.activity = activity;
     }
@@ -18,9 +22,6 @@ public class Activity implements Serializable {
 
     @Override
     public String toString() {
-        return "Activity{" +
-                "car=" + car +
-                ", activity='" + activity + '\'' +
-                '}';
+        return activity;
     }
 }

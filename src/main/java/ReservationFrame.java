@@ -1,13 +1,17 @@
+import com.github.lgooddatepicker.components.DateTimePicker;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 
 public class ReservationFrame extends JFrame {
     private JCheckBox depositCheckBox;
     private JCheckBox paidCheckBox;
     private JCheckBox TermsCheckBox;
-    private JTextField timeOfReturn;
+    private DateTimePicker timeOfReturn;
     private JButton submitButton;
 
     public ReservationFrame(String name) {
@@ -30,8 +34,7 @@ public class ReservationFrame extends JFrame {
         depositCheckBox = new JCheckBox("Deposit");
         paidCheckBox = new JCheckBox("Paid");
         TermsCheckBox = new JCheckBox("Terms & Conditions");
-        timeOfReturn = new JTextField(20);
-        timeOfReturn.setToolTipText("YYYY-MM-DD HH:MM");
+        timeOfReturn = new DateTimePicker();
         submitButton = new JButton("Finish");
     }
 
@@ -59,7 +62,7 @@ public class ReservationFrame extends JFrame {
         gbc.gridy += 1;
         gbc.insets = new Insets(10, 10, 10, 10);
         gbc.anchor = GridBagConstraints.FIRST_LINE_START;
-        add(new JLabel("Time of Return (YYYY-MM-DD HH:MM):"), gbc);
+        add(new JLabel("Time of Return:"), gbc);
 
         gbc.gridy += 1;
 
@@ -78,9 +81,26 @@ public class ReservationFrame extends JFrame {
         submitButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (depositCheckBox.isSelected() && paidCheckBox.isSelected() && TermsCheckBox.isSelected() && !timeOfReturn.getText().trim().isEmpty()) {
+                if (depositCheckBox.isSelected() && paidCheckBox.isSelected() && TermsCheckBox.isSelected() && timeOfReturn.getDateTimePermissive() != null) {
                     String title = ReservationFrame.this.getTitle();
-                    String activityFinal = title + " | " + timeOfReturn.getText().trim();
+                    LocalDateTime dateTime = timeOfReturn.getDateTimePermissive();
+
+                    String[] titleParts = title.split("\\|");
+                    if (titleParts.length >= 3) {
+                        String pickupTimeText = titleParts[2].trim();
+                        try {
+                            LocalDateTime pickupTime = LocalDateTime.parse(pickupTimeText, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
+                            if (dateTime.isBefore(pickupTime)) {
+                                JOptionPane.showMessageDialog(ReservationFrame.this, "Return time cannot be earlier than the car's pickup time (" + pickupTimeText + ").", "Invalid Date", JOptionPane.ERROR_MESSAGE);
+                                return;
+                            }
+                        } catch (DateTimeParseException ex) {
+                            System.err.println("Error parsing pickup time: " + ex.getMessage());
+                        }
+                    }
+
+                    String formattedTime = dateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
+                    String activityFinal = title + " | " + formattedTime;
 
                     AUX_CLS.writeToTxt(activityFinal, "src/main/returns.txt");
                     AUX_CLS.writeToTxt(activityFinal, "src/main/checkout.txt");

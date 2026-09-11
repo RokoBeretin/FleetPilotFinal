@@ -110,4 +110,25 @@ public class AUX_CLS {
             e.printStackTrace();
         }
     }
+    public static ArrayList<Activity> readActivityFromTxt(String fileName) {
+        ArrayList<Activity> activities = new ArrayList<>();
+
+        try (BufferedReader br = new BufferedReader(new FileReader(fileName))) {
+            String line;
+
+            while ((line = br.readLine()) != null) {
+                if (!line.trim().isEmpty()) {
+                    Activity activity = new Activity();
+                    activity.setActivity(line);
+
+                    activities.add(activity);
+                }
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return activities;
+    }
 }

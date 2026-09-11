@@ -1,11 +1,14 @@
+import com.github.lgooddatepicker.components.DateTimePicker;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 public class NewActivityPanel extends JPanel {
-    private JTextField timeOfRes;
+    private DateTimePicker timeOfRes;
     private JComboBox<String> activityCombo;
     private JComboBox<String> clientCombo;
     private JComboBox<String> vehicleCombo;
@@ -30,8 +33,7 @@ public class NewActivityPanel extends JPanel {
     }
 
     private void initComps() {
-        timeOfRes = new JTextField(30);
-        timeOfRes.setToolTipText("YYYY-MM-DD HH:MM");
+        timeOfRes = new DateTimePicker();
 
         activityCombo = new JComboBox<>();
         DefaultComboBoxModel<String> activityModel = new DefaultComboBoxModel<>();
@@ -90,7 +92,7 @@ public class NewActivityPanel extends JPanel {
 
         gbc.gridx = 0;
         gbc.gridy += 1;
-        add(new JLabel("Time of Pick-up (YYYY-MM-DD HH:MM):"), gbc);
+        add(new JLabel("Time of Pick-up:"), gbc);
 
         gbc.gridx += 1;
         add(timeOfRes, gbc);
@@ -108,12 +110,13 @@ public class NewActivityPanel extends JPanel {
                 if (activityCombo.getSelectedItem() != null &&
                         vehicleCombo.getSelectedItem() != null &&
                         clientCombo.getSelectedItem() != null &&
-                        !timeOfRes.getText().trim().isEmpty()) {
+                        timeOfRes.getDateTimePermissive() != null) {
 
                     String activity = (String) activityCombo.getSelectedItem();
                     String vehicle = (String) vehicleCombo.getSelectedItem();
                     String clientSelection = (String) clientCombo.getSelectedItem();
-                    String time = timeOfRes.getText().trim();
+                    LocalDateTime dateTime = timeOfRes.getDateTimePermissive();
+                    String time = dateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
 
                     String licensePlate = vehicle.split("\\|")[0].trim();
                     String client = clientSelection.split("\\|")[0].trim();
@@ -131,7 +134,7 @@ public class NewActivityPanel extends JPanel {
                     }
 
                     vehicleCombo.removeItem(vehicle);
-                    timeOfRes.setText("");
+                    timeOfRes.setDateTimePermissive(null);
 
                 } else {
                     JOptionPane.showMessageDialog(NewActivityPanel.this, "Please fill in all fields.", "Input Error", JOptionPane.ERROR_MESSAGE);

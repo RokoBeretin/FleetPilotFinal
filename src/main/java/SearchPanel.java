@@ -65,14 +65,14 @@ public class SearchPanel extends JPanel {
                 if(!searchField.getText().isEmpty()) {
                     String licensePlate = searchField.getText().trim();
                     StringBuilder results = new StringBuilder();
-                    //ArrayList<Activity> activities= AUX_CLS.loadFromBin("PROJECT/rentalsHistory.bin");
-                    //for(Activity activity : activities) {
-                    //String activityString = activity.toString();
-                    //if(activityString.contains(licensePlate)) {
-                    //results.append(activityString).append("\n");
-                    //}
-                    //}
-                    //resultsArea.setText(results.toString());
+                    ArrayList<Activity> activities= AUX_CLS.readActivityFromTxt("src/main/rentalsHistory.txt");
+                    for(Activity activity : activities) {
+                    String activityString = activity.toString();
+                        if(activityString.toLowerCase().contains(licensePlate.toLowerCase())){
+                        results.append(activityString).append("\n");
+                        }
+                    }
+                    resultsArea.setText(results.toString());
 
                 } else {
                     JOptionPane.showMessageDialog(null, "Please enter a license plate to search.", "Input Error", JOptionPane.ERROR_MESSAGE);
