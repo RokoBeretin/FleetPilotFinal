@@ -122,8 +122,14 @@ public class NewActivityPanel extends JPanel {
                     String client = clientSelection.split("\\|")[0].trim();
 
                     if ("Reservation".equals(activity)) {
+                        // Goes into ReservationsPanel, awaiting pickup
                         Reservation reservation = new Reservation(licensePlate, client, time);
                         reservationDAO.saveReservation(reservation);
+                    } else {
+                        // Car Wash / Gas Refill skip the pickup step and go straight to "checked out"
+                        String activityType = "Car Wash".equals(activity) ? "CAR_WASH" : "GAS_REFILL";
+                        Reservation directCheckout = new Reservation(licensePlate, client, time, activityType, "CHECKED_OUT");
+                        reservationDAO.saveReservation(directCheckout);
                     }
 
                     carDAO.updateCarAvailability(licensePlate, false);

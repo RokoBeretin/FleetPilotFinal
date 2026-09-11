@@ -2,15 +2,17 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
+import java.util.List;
 
 public class SearchPanel extends JPanel {
     private JTextField searchField;
     private JTextArea resultsArea;
     private JButton searchButton;
     private JLabel appLabel;
+    private RentalHistoryDAO rentalHistoryDAO;
 
     public SearchPanel() {
+        rentalHistoryDAO = new RentalHistoryDAO();
         initComps();
         layoutComps();
         activatePanel();
@@ -58,20 +60,24 @@ public class SearchPanel extends JPanel {
         gbc.gridy += 1;
         add(appLabel, gbc);
     }
+
     private void activatePanel() {
         searchButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(!searchField.getText().isEmpty()) {
+                if (!searchField.getText().isEmpty()) {
                     String licensePlate = searchField.getText().trim();
                     StringBuilder results = new StringBuilder();
-                    ArrayList<Activity> activities= AUX_CLS.readActivityFromTxt("src/main/rentalsHistory.txt");
-                    for(Activity activity : activities) {
-                    String activityString = activity.toString();
-                        if(activityString.toLowerCase().contains(licensePlate.toLowerCase())){
-                        results.append(activityString).append("\n");
-                        }
+
+                    List<Activity> activities = rentalHistoryDAO.searchByLicensePlate(licensePlate);
+                    for (Activity activity : activities) {
+                        results.append(activity.toString()).append("\n");
                     }
+
+                    if (activities.isEmpty()) {
+                        results.append("No history found for \"").append(licensePlate).append("\".");
+                    }
+
                     resultsArea.setText(results.toString());
 
                 } else {

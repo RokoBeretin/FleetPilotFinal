@@ -100,15 +100,10 @@ public class ReservationFrame extends JFrame {
                     }
 
                     String formattedTime = dateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
-                    String activityFinal = title + " | " + formattedTime;
-
-                    AUX_CLS.writeToTxt(activityFinal, "src/main/returns.txt");
-                    AUX_CLS.writeToTxt(activityFinal, "src/main/checkout.txt");
-
                     String licensePlate = title.split("\\|")[0].trim();
 
                     ReservationDAO reservationDAO = new ReservationDAO();
-                    reservationDAO.updateReservationStatus(licensePlate, "COMPLETED");
+                    reservationDAO.checkOutReservation(licensePlate, formattedTime);
 
                     dispose();
                 } else {

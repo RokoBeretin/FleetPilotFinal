@@ -75,7 +75,7 @@ public class MainFrame extends JFrame {
                             JOptionPane.WARNING_MESSAGE
                     );
                     if (response == JOptionPane.YES_OPTION) {
-                        AUX_CLS.resetAllData("src/main/returns.txt", "src/main/checkout.txt");
+                        AUX_CLS.resetAllData();
                         refreshFrame();
                         contentPanel.add(createReservationsPanel());
                     }
@@ -113,22 +113,20 @@ public class MainFrame extends JFrame {
         panel.setReturnClickListener(new ReturnClickListener() {
             @Override
             public void returnClickEventOccurred(String returns) {
-                new ReturnsFrame(returns);
+                ReturnsFrame frame = new ReturnsFrame(returns);
+                frame.addWindowListener(new WindowAdapter() {
+                    @Override
+                    public void windowClosed(WindowEvent e) {
+                        refreshFrame();
+                        contentPanel.add(createReturnsPanel());
+                    }
+                });
             }
         });
         return panel;
     }
 
     private NewActivityPanel createNewActivityPanel() {
-        NewActivityPanel panel = new NewActivityPanel();
-        panel.setNewActivityListener(new NewActivityPanelListener() {
-            @Override
-            public void newActivityPanelOccured(String event) {
-                if ("Car Wash".equals(panel.getActivityCombo()) || "Gas Refill".equals(panel.getActivityCombo())) {
-                    AUX_CLS.writeToTxt(event, "src/main/returns.txt");
-                }
-            }
-        });
-        return panel;
+        return new NewActivityPanel();
     }
 }
