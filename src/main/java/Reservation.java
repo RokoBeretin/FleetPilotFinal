@@ -1,3 +1,14 @@
+/**
+ * Domenska klasa (model) koja predstavlja jedan redak u tablici
+ * {@code reservations} - odnosno jednu aktivnu ili trenutno unajmljenu
+ * stavku (rezervaciju, pranje vozila ili točenje goriva).
+ * <p>
+ * Status rezervacije prolazi kroz jednostavan tok:
+ * {@code ACTIVE} (čeka preuzimanje) &rarr; {@code CHECKED_OUT} (vozilo je
+ * preuzeto, čeka se povrat) &rarr; brisanje retka po završetku (trajni trag
+ * ostaje u {@code rental_history}, vidi {@link RentalHistoryDAO}).
+ * Perzistenciju obavlja {@link ReservationDAO}.
+ */
 public class Reservation {
     private int id;
     private String licensePlate;
@@ -7,7 +18,6 @@ public class Reservation {
     private String activityType;
     private String expectedReturnTime;
 
-    // Used when creating a new "Reservation" activity (awaiting pickup)
     public Reservation(String licensePlate, String client, String timeOfRes) {
         this.licensePlate = licensePlate;
         this.client = client;

@@ -2,7 +2,14 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
+/**
+ * Traka s pet glavnih navigacijskih gumba aplikacije: Reservations,
+ * Returns, Checkout, New Activity i Search.
+ * <p>
+ * Ne sadrži poslovnu logiku - klik na bilo koji gumb samo se prosljeđuje
+ * registriranom {@link MainPanelListener}-u ({@code MainFrame}), koji
+ * odlučuje koji će se sadržajni panel prikazati.
+ */
 public class FromPanel extends JPanel implements ActionListener {
     JButton reservations;
     JButton returns;

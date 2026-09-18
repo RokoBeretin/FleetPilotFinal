@@ -2,7 +2,14 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-
+/**
+ * DAO (Data Access Object) klasa zadužena za sav pristup tablici
+ * {@code drivers} u bazi podataka.
+ * <p>
+ * Koristi je prvenstveno {@code NewActivityPanel} kako bi popunila
+ * padajući izbornik vozača, čime se sprječava ručni upis podataka o
+ * klijentu i osigurava da svaka rezervacija referencira postojećeg vozača.
+ */
 public class DriverDAO {
 
     private static final String URL = "jdbc:mysql://mysql-22de4455-aerroko-baza.g.aivencloud.com:20716/defaultdb?ssl-mode=REQUIRED";

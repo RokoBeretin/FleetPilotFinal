@@ -1,7 +1,17 @@
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-
+/**
+ * DAO (Data Access Object) klasa zadužena za sav pristup tablici
+ * {@code rental_history} u bazi podataka - trajnom, revizijskom zapisu
+ * svih završenih iznajmljivanja.
+ * <p>
+ * Za razliku od {@link ReservationDAO}, retci ove tablice se nikad ne
+ * brišu (ni funkcijom "Reset All Data"), jer predstavljaju povijest koja
+ * mora ostati sačuvana. Koristi je {@code CompleteReturnCommand} za upis
+ * novog zapisa te {@code SearchPanel} i {@code CheckoutPanel} za pretragu
+ * i prikaz.
+ */
 public class RentalHistoryDAO {
     private static final String URL = "jdbc:mysql://mysql-22de4455-aerroko-baza.g.aivencloud.com:20716/defaultdb?ssl-mode=REQUIRED";
     private static final String USER = "avnadmin";
@@ -79,7 +89,8 @@ public class RentalHistoryDAO {
     private Activity mapRow(ResultSet rs) throws SQLException {
         Car car = new Car(rs.getString("license_plate"), rs.getString("model"));
 
-        String details = rs.getString("client") + " | " + rs.getString("activity_type") +
+        String details = rs.getString("license_plate") + " | " + rs.getString("model") +
+                " | " + rs.getString("client") + " | " + rs.getString("activity_type") +
                 " | Checkout: " + rs.getString("checkout_time") +
                 " | Return: " + rs.getString("return_time") +
                 " | Km: " + rs.getInt("kilometers") +

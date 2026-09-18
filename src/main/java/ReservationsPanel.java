@@ -1,7 +1,15 @@
 import javax.swing.*;
 import java.awt.*;
 import java.util.List;
-
+/**
+ * Panel koji prikazuje popis svih aktivnih rezervacija koje čekaju
+ * preuzimanje vozila (status {@code ACTIVE}).
+ * <p>
+ * Podatke dohvaća izravno preko {@link ReservationDAO#getAllActiveReservations()}.
+ * Klik na pojedinu stavku prosljeđuje se registriranom
+ * {@link ReservationClickListener}-u ({@code MainFrame}), koji otvara
+ * {@code ReservationFrame} za tu rezervaciju.
+ */
 public class ReservationsPanel extends JPanel {
     private List<Reservation> reservationsList;
     private JScrollPane scrollPane;

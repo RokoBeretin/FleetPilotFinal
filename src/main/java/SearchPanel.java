@@ -3,7 +3,14 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
-
+/**
+ * Panel za pretragu trajne povijesti iznajmljivanja po (dijelu)
+ * registracijske oznake vozila.
+ * <p>
+ * Pretragu delegira klasi {@link RentalHistoryDAO}, koja izvršava
+ * {@code LIKE} upit nad tablicom {@code rental_history}, te ispisuje
+ * rezultate u tekstualno polje.
+ */
 public class SearchPanel extends JPanel {
     private JTextField searchField;
     private JTextArea resultsArea;
@@ -71,7 +78,7 @@ public class SearchPanel extends JPanel {
 
                     List<Activity> activities = rentalHistoryDAO.searchByLicensePlate(licensePlate);
                     for (Activity activity : activities) {
-                        results.append(activity.toString()).append("\n");
+                        results.append(activity.getActivity()).append("\n");
                     }
 
                     if (activities.isEmpty()) {

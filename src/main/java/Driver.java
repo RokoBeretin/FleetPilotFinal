@@ -1,5 +1,13 @@
 import java.io.Serializable;
-
+/**
+ * Domenska klasa (model) koja predstavlja jednog vozača (klijenta) koji
+ * može iznajmiti vozilo.
+ * <p>
+ * Odgovara jednom retku u tablici {@code drivers} u bazi podataka. Popis
+ * vozača se koristi za popunjavanje padajućeg izbornika (combo box) u
+ * {@code NewActivityPanel}, čime je onemogućen ručni upis imena klijenta.
+ * Perzistenciju obavlja {@link DriverDAO}.
+ */
 public class Driver implements Serializable {
     private int id;
     private String firstName;

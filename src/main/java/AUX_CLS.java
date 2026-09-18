@@ -4,7 +4,11 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-
+/**
+ * Pomoćna (utility) klasa sa statičkim metodama koje ne pripadaju
+ * nijednoj konkretnoj domenskoj ili DAO klasi - čitanje JSON konfiguracije
+ * te posredno učitavanje vozila iz baze podataka.
+ */
 public class AUX_CLS {
     private static Gson gson = new Gson();
     private static CarDAO carDAO = new CarDAO();
@@ -27,15 +31,4 @@ public class AUX_CLS {
         return new ArrayList<>(carsFromDb);
     }
 
-    // Marks every car available again and clears pending/active reservations.
-    // rental_history is intentionally left untouched - it's the permanent audit trail.
-    public static void resetAllData() {
-        List<Car> cars = carDAO.getAllCars();
-        for (Car car : cars) {
-            carDAO.updateCarAvailability(car.getLicensePlate(), true);
-        }
-
-        reservationDAO.deleteAllReservations();
-        System.out.println("All data reset successfully in database.");
-    }
 }

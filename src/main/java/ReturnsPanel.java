@@ -1,7 +1,15 @@
 import javax.swing.*;
 import java.awt.*;
 import java.util.List;
-
+/**
+ * Panel koji prikazuje popis svih vozila koja su trenutno preuzeta i
+ * čekaju povrat (status {@code CHECKED_OUT}).
+ * <p>
+ * Podatke dohvaća izravno preko {@link ReservationDAO#getAllCheckedOutReservations()}.
+ * Klik na pojedinu stavku prosljeđuje se registriranom
+ * {@link ReturnClickListener}-u ({@code MainFrame}), koji otvara
+ * {@code ReturnsFrame} za tu stavku.
+ */
 public class ReturnsPanel extends JPanel {
     private List<Reservation> checkedOutList;
     private JScrollPane scrollPane;

@@ -6,7 +6,18 @@ import java.awt.event.ActionListener;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
-
+/**
+ * Panel za unos nove aktivnosti - redovne rezervacije, pranja vozila ili
+ * točenja goriva.
+ * <p>
+ * Vozač se bira iz padajućeg izbornika popunjenog preko {@link DriverDAO}
+ * (umjesto ručnog upisa imena), vozilo se bira iz izbornika dostupnih
+ * vozila preko {@link CarDAO}, a vrijeme se odabire kalendarskom
+ * komponentom {@link DateTimePicker}. Po potvrdi pokreće
+ * {@link CreateReservationCommand} (za tip "Reservation") ili
+ * {@link CreateServiceActivityCommand} (za "Car Wash" / "Gas Refill") -
+ * sama poslovnu logiku ne izvršava izravno.
+ */
 public class NewActivityPanel extends JPanel {
     private DateTimePicker timeOfRes;
     private JComboBox<String> activityCombo;
@@ -92,7 +103,7 @@ public class NewActivityPanel extends JPanel {
 
         gbc.gridx = 0;
         gbc.gridy += 1;
-        add(new JLabel("Time of Pick-up:"), gbc);
+        add(new JLabel("Time of Pick-up (YYYY-MM-DD HH:MM):"), gbc);
 
         gbc.gridx += 1;
         add(timeOfRes, gbc);
@@ -123,16 +134,12 @@ public class NewActivityPanel extends JPanel {
 
                     if ("Reservation".equals(activity)) {
                         // Goes into ReservationsPanel, awaiting pickup
-                        Reservation reservation = new Reservation(licensePlate, client, time);
-                        reservationDAO.saveReservation(reservation);
+                        new CreateReservationCommand(reservationDAO, carDAO, licensePlate, client, time).execute();
                     } else {
                         // Car Wash / Gas Refill skip the pickup step and go straight to "checked out"
                         String activityType = "Car Wash".equals(activity) ? "CAR_WASH" : "GAS_REFILL";
-                        Reservation directCheckout = new Reservation(licensePlate, client, time, activityType, "CHECKED_OUT");
-                        reservationDAO.saveReservation(directCheckout);
+                        new CreateServiceActivityCommand(reservationDAO, carDAO, licensePlate, client, time, activityType).execute();
                     }
-
-                    carDAO.updateCarAvailability(licensePlate, false);
 
                     if (newActivityListener != null) {
                         String activityFinal = vehicle + " | " + client + " | " + activity + " | " + time;

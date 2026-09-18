@@ -1,5 +1,13 @@
 import java.io.Serializable;
-
+/**
+ * Domenska klasa (model) koja predstavlja jedno vozilo iz voznog parka.
+ * <p>
+ * Odgovara jednom retku u tablici {@code cars} u bazi podataka. Ne sadrži
+ * nikakvu logiku pristupa bazi podataka - za to je zadužena klasa
+ * {@link CarDAO}. Implementira {@link Serializable} radi kompatibilnosti sa
+ * starijim dijelom projekta koji je koristio binarnu (datotečnu) pohranu
+ * podataka prije migracije na MySQL bazu.
+ */
 public class Car implements Serializable {
     private String licensePlate;
     private String model;

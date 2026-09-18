@@ -2,7 +2,18 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-
+/**
+ * DAO (Data Access Object) klasa zadužena za sav pristup tablici
+ * {@code reservations} u bazi podataka.
+ * <p>
+ * Upravlja cijelim statusnim tokom jedne stavke: stvaranje (
+ * {@link #saveReservation}), prijelaz iz čekanja preuzimanja u preuzeto
+ * stanje ({@link #checkOutReservation}) te konačno zatvaranje pri povratu
+ * vozila ({@link #completeReturn}). Koriste je Command klase
+ * ({@code CreateReservationCommand}, {@code CheckOutReservationCommand},
+ * {@code CompleteReturnCommand}, {@code ResetAllDataCommand}) kao receiver
+ * u Command dizajnerskom obrascu.
+ */
 public class ReservationDAO {
     private static final String URL = "jdbc:mysql://mysql-22de4455-aerroko-baza.g.aivencloud.com:20716/defaultdb?ssl-mode=REQUIRED";
     private static final String USER = "avnadmin";

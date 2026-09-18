@@ -2,10 +2,15 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.Optional;
-
+/**
+ * Zaseban prozor (JFrame) za unos podataka pri fizičkom povratu vozila -
+ * prijeđena kilometraža i razina goriva.
+ * <p>
+ * Ne izvršava poslovnu logiku izravno, već po potvrdi pokreće
+ * {@link CompleteReturnCommand} (invoker u Command dizajnerskom obrascu)
+ * koji upisuje trajni zapis u {@code rental_history}, oslobađa vozilo i
+ * zatvara rezervaciju.
+ */
 public class ReturnsFrame extends JFrame {
     private JTextField kilometersField;
     private JTextField fuelField;
@@ -97,20 +102,7 @@ public class ReturnsFrame extends JFrame {
                         kilometers = 0;
                     }
 
-                    Optional<Reservation> reservationOpt = reservationDAO.getReservationByLicensePlateAndStatus(licensePlate, "CHECKED_OUT");
-                    Optional<Car> carOpt = carDAO.getCarByLicensePlate(licensePlate);
-
-                    String client = reservationOpt.map(Reservation::getClient).orElse("Unknown");
-                    String activityType = reservationOpt.map(Reservation::getActivityType).orElse("RESERVATION");
-                    String checkoutTime = reservationOpt.map(Reservation::getTimeOfRes).orElse("");
-                    String model = carOpt.map(Car::getModel).orElse("");
-
-                    String returnTime = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
-
-                    rentalHistoryDAO.saveEntry(licensePlate, model, client, activityType, checkoutTime, returnTime, kilometers, fuelText);
-
-                    carDAO.updateCarAvailability(licensePlate, true);
-                    reservationDAO.completeReturn(licensePlate);
+                    new CompleteReturnCommand(carDAO, reservationDAO, rentalHistoryDAO, licensePlate, kilometers, fuelText).execute();
 
                     dispose();
                 }

@@ -6,7 +6,18 @@ import java.awt.event.ActionListener;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
-
+/**
+ * Zaseban prozor (JFrame) za potvrdu preuzimanja jednog vozila po
+ * rezervaciji - potvrda depozita, plaćanja, uvjeta korištenja te unos
+ * dogovorenog vremena povrata (preko kalendarske komponente
+ * {@link DateTimePicker}).
+ * <p>
+ * Ne izvršava poslovnu logiku izravno, već po potvrdi pokreće
+ * {@link CheckOutReservationCommand} (invoker u Command dizajnerskom
+ * obrascu) koji stvarno mijenja status rezervacije u bazi podataka.
+ * Sadrži i provjeru da vrijeme povrata ne može biti prije vremena
+ * preuzimanja navedenog u naslovu prozora.
+ */
 public class ReservationFrame extends JFrame {
     private JCheckBox depositCheckBox;
     private JCheckBox paidCheckBox;
@@ -62,7 +73,7 @@ public class ReservationFrame extends JFrame {
         gbc.gridy += 1;
         gbc.insets = new Insets(10, 10, 10, 10);
         gbc.anchor = GridBagConstraints.FIRST_LINE_START;
-        add(new JLabel("Time of Return:"), gbc);
+        add(new JLabel("Time of Return (YYYY-MM-DD HH:MM):"), gbc);
 
         gbc.gridy += 1;
 
@@ -103,7 +114,7 @@ public class ReservationFrame extends JFrame {
                     String licensePlate = title.split("\\|")[0].trim();
 
                     ReservationDAO reservationDAO = new ReservationDAO();
-                    reservationDAO.checkOutReservation(licensePlate, formattedTime);
+                    new CheckOutReservationCommand(reservationDAO, licensePlate, formattedTime).execute();
 
                     dispose();
                 } else {

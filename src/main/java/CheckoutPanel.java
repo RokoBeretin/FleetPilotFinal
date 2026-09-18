@@ -2,7 +2,12 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
-
+/**
+ * Panel koji prikazuje pregled trenutnog stanja i povijesti
+ * iznajmljivanja: vozila koja su trenutno preuzeta i čekaju povrat (iz
+ * {@link ReservationDAO}), zajedno s cjelokupnom trajnom poviješću
+ * završenih iznajmljivanja (iz {@link RentalHistoryDAO}).
+ */
 public class CheckoutPanel extends JPanel {
     private List<String> checkOutList;
     private JScrollPane scrollPane;
@@ -33,7 +38,7 @@ public class CheckoutPanel extends JPanel {
         }
 
         for (Activity activity : rentalHistoryDAO.getAllHistory()) {
-            checkOutList.add(activity.toString());
+            checkOutList.add(activity.getActivity());
         }
 
         JPanel buttonListPanel = new JPanel();

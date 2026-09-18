@@ -1,7 +1,14 @@
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
+/**
+ * Alatna traka (JMenuBar) na vrhu glavnog prozora, trenutno s jednim
+ * gumbom - "Reset All Data".
+ * <p>
+ * Ne sadrži poslovnu logiku - klik na gumb samo se prosljeđuje
+ * registriranom {@link ToolBarListener}-u ({@code MainFrame}), koji
+ * pokreće {@code ResetAllDataCommand}.
+ */
 public class ToolBar extends JMenuBar implements ActionListener {
     private JButton clearButton;
     private ToolBarListener toolBarListener;

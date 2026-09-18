@@ -2,7 +2,15 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-
+/**
+ * DAO (Data Access Object) klasa zadužena za sav pristup tablici
+ * {@code cars} u MySQL bazi podataka (Aiven cloud).
+ * <p>
+ * Ovo je jedino mjesto u projektu koje piše SQL upite vezane uz vozila -
+ * ostatak aplikacije (GUI paneli, Command klase) komunicira isključivo
+ * kroz metode ove klase i domenske objekte tipa {@link Car}, nikad
+ * izravno s bazom podataka.
+ */
 public class CarDAO {
 
     private static final String URL = "jdbc:mysql://mysql-22de4455-aerroko-baza.g.aivencloud.com:20716/defaultdb?ssl-mode=REQUIRED";

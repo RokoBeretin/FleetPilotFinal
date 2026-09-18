@@ -3,7 +3,15 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.util.ArrayList;
 import java.util.List;
-
+/**
+ * Jednokratna pomoćna klasa (skripta, ne dio žive aplikacije) koja
+ * prebacuje podatke o vozilima iz stare binarne datoteke ({@code cars.bin},
+ * nastale serijalizacijom {@link Car} objekata) u MySQL bazu podataka na
+ * Aiven cloudu, preko {@link CarDAO}.
+ * <p>
+ * Korištena je jednom, u trenutku migracije projekta s datotečne pohrane
+ * na relacijsku bazu podataka.
+ */
 public class DatabaseMigrator {
 
     @SuppressWarnings("unchecked")

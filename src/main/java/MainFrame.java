@@ -2,7 +2,16 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-
+/**
+ * Vrhovni prozor (JFrame) cijele FleetPilot aplikacije.
+ * <p>
+ * Sadrži alatnu traku ({@link ToolBar}), traku s glavnim gumbima
+ * ({@code FromPanel}) i centralni panel u koji se, ovisno o odabiru
+ * korisnika, umeće odgovarajući sadržajni panel (rezervacije, povrati,
+ * checkout, nova aktivnost, pretraga). Djeluje kao "promatrač" u odnosu
+ * na listener sučelja koja emitiraju paneli, te kao invoker za
+ * {@code ResetAllDataCommand} u Command dizajnerskom obrascu.
+ */
 public class MainFrame extends JFrame {
     private FromPanel fromPanel;
     private JPanel contentPanel;
@@ -75,7 +84,7 @@ public class MainFrame extends JFrame {
                             JOptionPane.WARNING_MESSAGE
                     );
                     if (response == JOptionPane.YES_OPTION) {
-                        AUX_CLS.resetAllData();
+                        new ResetAllDataCommand(new CarDAO(), new ReservationDAO()).execute();
                         refreshFrame();
                         contentPanel.add(createReservationsPanel());
                     }
