@@ -30,7 +30,7 @@ Baza podataka je relacijska MySQL baza (hostirana na Aiven cloud servisu). Sasto
 
 ![erd.png](erd.png)
 
-*Slika 3 – ERD dijagram baze podataka FleetPilot*
+*Slika 2 – ERD dijagram baze podataka FleetPilot*
 
 - **cars** – matični podaci o vozilima (registracija kao primarni ključ, model, dostupnost).
 - **drivers** – matični podaci o vozačima (ime, prezime, OIB).
@@ -101,21 +101,4 @@ U projektu su korištene sljedeće vanjske biblioteke, upravljane putem Mavena (
 
 ## 5. Git aciklički graf povijesti repozitorija
 
-Ovdje treba umetnuti snimku zaslona (screenshot) grafa povijesti commitova iz vlastitog Git repozitorija projekta.
-
-### 5.1. Kako doći do grafa
-
-- **IntelliJ IDEA**: otvori "Git" karticu pri dnu prozora (**Git → Log**), graf commitova s granama prikazan je lijevo; napravi snimku zaslona.
-- **Terminal** (tekstualni graf): pokreni naredbu `git log --all --graph --oneline --decorate` unutar korijenskog direktorija repozitorija.
-- **GitHub/GitLab**: na stranici repozitorija otvori **Insights → Network** (GitHub) ili **Repository → Graph** (GitLab) za vizualni prikaz grana i spajanja.
-- **gitk** (ako je instaliran): pokreni `gitk --all` za grafičko sučelje s prikazom cijele povijesti.
-
-Preporuka: prije predaje provjeri da graf jasno prikazuje više commitova kroz vrijeme (idealno s vidljivim porukama commitova) kako bi se vidjela postupnost razvoja projekta.
-
-Snimku spremi kao npr. `git_graph.png` u isti folder kao i ovaj `.md` fajl, pa je ovdje umetni ovako:
-
-```markdown
-![Git graf povijesti repozitorija](git_graph.png)
-```
-
-<!-- OVDJE UMETNUTI SNIMKU ZASLONA GIT GRAFA -->
+![git.png](git.png)
